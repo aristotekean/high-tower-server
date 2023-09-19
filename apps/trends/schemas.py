@@ -1,6 +1,22 @@
 from beanie import Document, PydanticObjectId
 from typing import Optional
-from pydantic import (BaseModel, Field)
+from pydantic import (Field)
+
+
+class QueryBase(Document):
+    query: str = Field(...)
+    
+    class Settings:
+        name = "trends"
+    
+    class Config:
+        schema_extra = {
+        "query": "string"
+        }
+
+class QueryResponse(QueryBase):
+    _id: PydanticObjectId
+
 
 class UserBase(Document):
     ardaId: Optional[int] = Field()
@@ -22,6 +38,9 @@ class UserBase(Document):
     creators: Optional[list]  = Field()
     relationDegree: Optional[int]  = Field()
     contact: Optional[bool]  = Field()
+
+    class Settings:
+        name = "users"
 
     class Config:
         schema_extra = {
@@ -51,8 +70,6 @@ class UserBase(Document):
         }
 
     
-    class Settings:
-        name = "trends"
 
-class UserBaseResponse(UserBase):
+class UserResponse(UserBase):
     pass

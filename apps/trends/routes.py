@@ -3,7 +3,7 @@ from typing import Optional, List
 import requests
 import json
 
-from apps.trends.schemas import UserBase, UserBaseResponse
+from apps.trends.schemas import QueryBase, QueryResponse
 
 router = APIRouter()
 
@@ -11,12 +11,12 @@ router = APIRouter()
 async def show_most_wanted():
     return {}
 
-# Create training sesion
-@router.post(path="/", response_model=UserBaseResponse, status_code=status.HTTP_201_CREATED, summary="Create a query")
-async def post_query(query: UserBase = Body(...,  title="Post new query",
+# Add query
+@router.post(path="/", response_model=QueryResponse, status_code=status.HTTP_201_CREATED, summary="Create a query")
+async def post_query(query: QueryBase = Body(...,  title="Post new query",
                                                               description="Post new query",
                                                               )):
-  
+    print(query)
     await query.create()
     if not query:
         raise HTTPException(status_code=404)

@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Body, FastAPI, status, Response
 import requests
 import json
+from fastapi import APIRouter, Body, FastAPI, status, Response
 
 from apps.search.schemas import UserBase
 
@@ -12,6 +12,7 @@ async def read_user(username: str):
     return resultl
 
 def search_user_by_id(username: str):
+
     url = "https://torre.ai/api/entities/_searchStream"
     payload = json.dumps({
     "query": username,
@@ -25,7 +26,6 @@ def search_user_by_id(username: str):
     headers = {
     'Content-Type': 'application/json',
     }
-    
     response = requests.request("POST", url, headers=headers, data=payload)
     result = xndjson_to_json(response.text)
       

@@ -7,7 +7,7 @@ from core.config import settings
 from starlette.middleware.cors import CORSMiddleware
 
 # Models
-from apps.trends.schemas import UserBase
+from apps.trends.schemas import UserBase, QueryBase
 
 # Routes
 from apps.search.routes import router as SearchRoutes
@@ -57,7 +57,7 @@ async def on_startup():
     await init_beanie(
         database=db,
         #Models
-        document_models=[UserBase],
+        document_models=[UserBase, QueryBase],
     )
 
 
