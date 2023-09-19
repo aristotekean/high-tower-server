@@ -73,3 +73,11 @@ app = CORSMiddleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+if __name__ == "__main__":
+    uvicorn.run(
+        "main:app",
+        host=settings.SERVER_HOST,
+        reload=settings.DEBUG_MODE,
+        port=settings.SERVER_PORT,
+    )
