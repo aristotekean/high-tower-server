@@ -1,29 +1,27 @@
+from beanie import Document, PydanticObjectId
 from typing import Optional
 from pydantic import (BaseModel, Field)
 
-
-class UserBase(BaseModel):
-    
-    ardaId: bool = Field(...)
-    ggId: str = Field(...)
-    name: str = Field(...)
-    comparableName: str = Field(...)
-    username: str = Field(...)
-    professionalHeadline: str = Field(...)
-    imageUrl: str = Field(...)
-    completion: float = Field(...)
-    grammar: float = Field(...)
-    weight: int = Field(...)
-    weight: bool = Field(...)
-    connections: list = Field(...)
-    totalStrength: int = Field(...)
-    pageRank: float = Field(...)
-    organizationId: int  = Field(...)
-    organizationNumericId: int  = Field(...)
-    status: int  = Field(...)
-    creators: list  = Field(...)
-    relationDegree: int  = Field(...)
-    contact: bool  = Field(...)
+class UserBase(Document):
+    ardaId: Optional[int] = Field()
+    ggId: Optional[str] = Field()
+    name: Optional[str] = Field()
+    comparableName: Optional[str] = Field()
+    username: Optional[str] = Field()
+    professionalHeadline: Optional[str] = Field()
+    imageUrl: Optional[str] = Field()
+    completion: Optional[float] = Field()
+    grammar: Optional[float] = Field()
+    weight: Optional[bool] = Field()
+    connections: Optional[list] = Field()
+    totalStrength: Optional[bool] = Field()
+    pageRank:  Optional[float] = Field()
+    organizationId: Optional[int]  = Field()
+    organizationNumericId: Optional[int]  = Field()
+    status: Optional[int]  = Field()
+    creators: Optional[list]  = Field()
+    relationDegree: Optional[int]  = Field()
+    contact: Optional[bool]  = Field()
 
     class Config:
         schema_extra = {
@@ -51,6 +49,10 @@ class UserBase(BaseModel):
                         "relationDegree":1,
                         "contact":False}
         }
-        
-class UserResponse(UserBase):
+
+    
+    class Settings:
+        name = "trends"
+
+class UserBaseResponse(UserBase):
     pass

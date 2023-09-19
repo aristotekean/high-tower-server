@@ -1,8 +1,17 @@
-from typing import Union
+import sys
+import uvicorn
+import motor
+from fastapi import FastAPI
+from beanie import init_beanie
+from core.config import settings
 from starlette.middleware.cors import CORSMiddleware
 
-from fastapi import FastAPI
+# Models
+from apps.trends.schemas import UserBase
+
+# Routes
 from apps.search.routes import router as SearchRoutes
+from apps.trends.routes import router as TrendsRoutes
 
 DESCRIPTION = """
 
@@ -36,9 +45,25 @@ async def read_root():
     message = f"Hello world! From FastAPI running on Uvicorn with Gunicorn."
     return {"message": message}
 
+@app.on_event("startup")
+async def on_startup():
+    """_summary_
+    """
+    client = motor.motor_asyncio.AsyncIOMotorClient(
+        settings.DB_URL, uuidRepresentation="standard")
+
+    db = client[settings.DB_NAME]
+
+    await init_beanie(
+        database=db,
+        #Models
+        document_models=[UserBase],
+    )
+
 
 # Routes
 app.include_router(SearchRoutes, prefix="/search", tags=["search"])
+app.include_router(TrendsRoutes, prefix="/trends", tags=["trends"])
 
 origins = ["*"]
 app = CORSMiddleware(
